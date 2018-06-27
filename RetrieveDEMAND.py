@@ -7,22 +7,24 @@ import logging
 from suds.client import Client
 
 
+
 FEWSServer = sys.argv[2]
 WSDLLocation = 'FewsPiService?WSDL'
 
 if (__name__ == '__main__'):
-    # requested_dir is only needed for pulling a file froma directory
+    # requested_dir is only needed for pulling a file from a directory
     # file location and name
     # requested_dir= r"C:\Users\Public\Documents\Python Scripts"
     # file_name = "\Test_CSV"
     file_name ="/coop_pot_withdrawals"
     # select file type
     extension = ".csv"
-    # #assigns a datae and time to file
+    # #assigns a date and time to file
     date_time = str((datetime.datetime.now().strftime("_%Y%m%d_%H"))) #"here and now"
     # #opens requested file
     # requested_file = open(requested_dir + file_name + extension, "r+")
     #runInfoFile = sys.argv[1]
+
     serverString = 'http://' + FEWSServer + '/' + WSDLLocation
     cnxn = Client(serverString)
 
@@ -49,16 +51,6 @@ if (__name__ == '__main__'):
                     archiveDir = value[i]
                 elif (key[i].upper() == 'HOST'):
                     host = value[i]
-                elif (key[i].upper() == 'PORT'):
-                    port = value[i]
-                elif (key[i].upper() == 'USR'):
-                    usr = value[i]
-                elif (key[i].upper() == 'PW'):
-                    pw = value[i]
-                elif (key[i].upper() == 'PATH'):
-                    path = value[i]
-                elif (key[i].upper() == 'LOOKBACK'):
-                    lookback = value[i]
     except:
                 log.warning('Could not initialize variables')
                 FEWSConnect.logFileToXML(logFile, runInfo['outputDiagnosticFile'])
@@ -67,16 +59,22 @@ if (__name__ == '__main__'):
     
 
 
-    requested_file = urllib2.urlopen('https://icprbcoop.org/drupal4/products/coop_pot_withdrawals.csv')
+    requested_file = urllib2.urlopen(host)#'https://icprbcoop.org/drupal4/products/coop_pot_withdrawals.csv')
 
     #read requested file content to file_content
     file_content = requested_file.read()
     #where new file will be created
-    destination = r"/home/user1/Documents"
+    destination = importDir #r"/home/user1/Documents"
+    archive_destination = archiveDir
     #creates new file
     new_file = open(destination + file_name + date_time + extension, "wb")
     #writes content of file_content to new_file
     new_file.write(file_content)
+    #do same for new_archive_file
+    new_archive_file = open(archive_destination + file_name + date_time + extension, "wb")
+    new_archive_file.write(file_content)
+    #close all files
+    new_archive_file.close()
     new_file.close()
     requested_file.close()
     
