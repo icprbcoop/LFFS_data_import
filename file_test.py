@@ -1,4 +1,5 @@
 from urllib.request import urlopen
+import datetime
 
 def main():
     # requested_dir is only needed for pulling a file froma directory
@@ -9,7 +10,7 @@ def main():
     # select file type
     extension = ".csv"
     # #assigns a datae and time to file
-    date_time = "here and now"
+    date_time = str((datetime.datetime.now().strftime("%Y%m%d"))) #"here and now"
     # #opens requested file
     # requested_file = open(requested_dir + file_name + extension, "r+")
     
@@ -27,6 +28,7 @@ def main():
     #writes content of file_content to new_file
     new_file.write(file_content)
     new_file.close()
+    requested_file.close()
     
 
 if __name__ == '__main__':
