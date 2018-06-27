@@ -7,7 +7,6 @@ import logging
 from suds.client import Client
 
 
-
 FEWSServer = sys.argv[2]
 WSDLLocation = 'FewsPiService?WSDL'
 
@@ -79,6 +78,43 @@ if (__name__ == '__main__'):
     requested_file.close()
     
 
-#if __name__ == '__main__':
-#    main()
+#what do we need of code below:
 
+# Check if host site is available to retrieve MARFC files from sftp.
+
+    port = int(port)
+    try:
+        # paramiko.util.log_to_file(tempDir + '\\paramiko.log')
+        transport = Transport((host, port))
+        transport.connect(username = usr, password = pw)
+        sftp = SFTPClient.from_transport(transport)
+        log.info('Succesfully connected to %s', host)
+        print('Successfully connected to '+host)
+    except:
+        log.warning('Could not connect to %s', host)
+        print('could not connect')
+        print format_exc()
+
+
+# defines number of hours (files) to retrieve based on lookback value (in days)
+# This is defined very simply and assumes MARFC updates a new MPE file for every hour
+# as was observed when this script was written.
+    hrsback = int(lookback)*24
+# Retrieve list of files from sftp site
+    s=sftp.listdir(path)
+# List of files in directory based on lookback period in hours
+    allfiles=[filename for filename in s if filename.endswith('.grib')][-hrsback:]
+#    print allfiles
+#    exit ('test')
+
+    for file in allfiles:
+        grib = sftp.open(path+file,'rb').read()
+#        Store file in FEWS import Directory
+        with open(importDir +file, 'wb') as f:
+            f.write(grib)
+#        Store file in Archive Directory - TEMPORARILY SUSPEND
+#        with open(archiveDir +file, 'wb') as a:
+#            a.write(grib)
+
+#   This looks promising
+    FEWSConnect.logFileToXML(logFile, runInfo['outputDiagnosticFile'])
