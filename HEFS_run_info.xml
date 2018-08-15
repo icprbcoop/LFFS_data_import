@@ -1,0 +1,21 @@
+<!--anything listed as unknown or UNKNONWN was demand or DEMAND in the MARFC script -->
+<?xml version="1.0" encoding="UTF-8"?>
+<Run xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.wldelft.nl/fews/PI" xsi:schemaLocation="http://www.wldelft.nl/fews/PI http://fews.wldelft.nl/schemas/version1.0/pi-schemas/pi_run.xsd" version="1.5">
+    <timeZone>0.0</timeZone>
+    <startDateTime date="2018-06-22" time="19:00:00"/>
+    <endDateTime date="2018-06-22" time="19:00:00"/>
+    <time0 date="2018-06-22" time="19:00:00"/>
+    <lastObservationDateTime date="2018-06-22" time="19:00:00"/>
+    <workDir>/home/user1/FEWS/client/config_sa/Models/RTi/UNKNOWN/work</workDir>
+    <outputDiagnosticFile>/home/user1/FEWS/client/config_sa/Models/RTi/UNKNOWN/output/diag.xml</outputDiagnosticFile>
+    <properties>
+        <string key="importDir" value="/home/user1/FEWS/client/config_sa/Import/unknown"/>
+        <string key="archiveDir" value="//mnt/SSD2/LFFS_archives/UNKNOWN/"/>
+        <string key="host" value="data7.erh.noaa.gov"/>
+        <string key="port" value= 22/>
+        <string key="usr" value = "cschultz"/>
+        <string key="pw" value= "Shenandoah19"/>
+        <string key="path" value="/hefs_icprb/"/>
+        <string key="lookback" value=5/>
+    </properties>
+</Run>                                    
