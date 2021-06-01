@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<generalAdapterRun xmlns="http://www.wldelft.nl/fews" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.wldelft.nl/fews http://schemas/generalAdapterRun.xsd"
+>
+
+    <general>
+        <description>General Adapter Test</description>
+        <piVersion>1.5</piVersion>
+        <rootDir>$MODELDIR$/RTi/NLDAS</rootDir>
+        <workDir>%ROOT_DIR%/work</workDir>
+        <exportDir>%ROOT_DIR%/input</exportDir>
+        <exportDataSetDir>%ROOT_DIR%</exportDataSetDir>
+        <importDir>%ROOT_DIR%/output</importDir>
+        <dumpFileDir>$GA_DUMPFILEDIR$</dumpFileDir>
+        <dumpDir>%ROOT_DIR%</dumpDir>
+        <diagnosticFile>%ROOT_DIR%/output/diag.xml</diagnosticFile>
+    </general>
+
+    <activities>
+        <startUpActivities>
+            <purgeActivity>
+                <filter>%ROOT_DIR%/work/*.*</filter>
+            </purgeActivity>
+            <purgeActivity>
+                <filter>%ROOT_DIR%/output/*.*</filter>
+            </purgeActivity>
+        </startUpActivities>
+        <exportActivities>
+            <exportRunFileActivity>
+                <exportFile>%ROOT_DIR%/run_info.xml</exportFile>
+                <properties>
+                    <string key="importDir" value="$IMPORT_FOLDER_ROOT$/nldas/"/>
+                    <string key="archiveDir" value="$ARCHIVE_DIR$/NLDAS/"/>
+                    <string key="host" value="https://hydro1.gesdisc.eosdis.nasa.gov/data/NLDAS/NLDAS_FORA0125_H.002/"/>
+                    <string key="lookback" value="60"/>
+                </properties>
+            </exportRunFileActivity>
+        </exportActivities>
+        <executeActivities>
+            <executeActivity>
+                <command>
+                    <executable>$PYTHON_EXE$</executable>
+                </command>
+                <arguments>
+                    <argument>$MODELDIR$/RTi/bin/RetrieveNLDAS.py</argument>
+                    <argument>%ROOT_DIR%/run_info.xml</argument>
+                    <argument>$FEWSSERVER$</argument>
+                </arguments>
+                <!--time in milliseconds, allowing 20 minutes to download NLDAS data-->
+                <timeOut>7200000</timeOut>
+            </executeActivity>
+        </executeActivities>
+    </activities>
+    
+</generalAdapterRun>
